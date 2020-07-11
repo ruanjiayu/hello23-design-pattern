@@ -1,4 +1,4 @@
-package com.fun.uncle.builder;
+package com.fun.uncle.builder.demo1;
 
 /**
  * @Description: 工人->负责创建包子

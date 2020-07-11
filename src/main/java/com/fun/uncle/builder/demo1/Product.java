@@ -1,4 +1,4 @@
-package com.fun.uncle.builder;
+package com.fun.uncle.builder.demo1;
 
 /**
  * @Description: 产品

@@ -1,4 +1,4 @@
-package com.fun.uncle.builder;
+package com.fun.uncle.builder.demo1;
 
 /**
  * @Description: 指挥者 -> 指挥工人如何来进行操作
