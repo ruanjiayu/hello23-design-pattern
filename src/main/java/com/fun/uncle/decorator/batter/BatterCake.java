@@ -1,4 +1,4 @@
-package com.fun.uncle.decorator;
+package com.fun.uncle.decorator.batter;
 
 /**
  * @Description: 抽象类，煎饼果子
