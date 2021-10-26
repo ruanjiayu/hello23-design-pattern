@@ -13,13 +13,23 @@ public class NodeTwo implements FlowNodeInterface{
 
     @Override
     public Object invokeNode(FlowEngine.RunData nodeData, Context context) {
-        System.out.println("执行方法" + nodeData.getParamTwo());
+        System.out.println("invokeNode:" + nodeData.getParamTwo());
+        try {
+            Thread.sleep(10L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return nodeData.getParamTwo();
     }
 
     @Override
     public void afterInvoke(FlowEngine.RunData nodeData, Context context) {
-
+        System.out.println("afterInvoke:" + nodeData.getParamTwo());
+        try {
+            Thread.sleep(10L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

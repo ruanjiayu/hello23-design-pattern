@@ -12,6 +12,7 @@ public class Flow {
     static {
         testFlow.add(NodeOne.class, new FlowNode.NodeConf());
         testFlow.add(NodeTwo.class, new FlowNode.NodeConf());
+
 //        testFlow.add("tree", NodeOne.class, new FlowNode.NodeConf());
 //        testFlow.add("tree", NodeTwo.class, new FlowNode.NodeConf());
     }

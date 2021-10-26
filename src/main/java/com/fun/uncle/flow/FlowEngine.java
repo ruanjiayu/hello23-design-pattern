@@ -84,10 +84,13 @@ public class FlowEngine {
                         Object o = future.get(timeout, TimeUnit.MICROSECONDS);
                         context.getAdaptorMap().put(detailNode.resultKey(), o);
                     } catch (ExecutionException e) {
+                        System.out.println("ExecutionException");
                         needThrowExp = true;
                     } catch (TimeoutException o) {
+                        System.out.println("TimeoutException" + timeout);
                         needThrowExp = true;
                     } catch (Exception e) {
+                        System.out.println("Exception");
                         needThrowExp = true;
                     }
                 }

@@ -23,7 +23,7 @@ public class FlowNode {
      * @param nodeConf
      */
     public void add(String groupName, Class nodeName, NodeConf nodeConf) {
-        String key = null;
+        String key;
         if (StringUtils.isNotBlank(groupName)) {
             key = groupName + "_" + nodeName.getName();
         } else {
@@ -42,7 +42,7 @@ public class FlowNode {
     }
 
     public void replace(String groupName, Class nodeName, NodeConf nodeConf) {
-        String key = null;
+        String key;
         if (StringUtils.isNotBlank(groupName)) {
             key = groupName + "_" + nodeName.getName();
         } else {
@@ -90,7 +90,7 @@ public class FlowNode {
      */
     public static class NodeConf {
 
-        private int timeout = 100;
+        private int timeout = 5000;
 
         public NodeConf() {
         }
