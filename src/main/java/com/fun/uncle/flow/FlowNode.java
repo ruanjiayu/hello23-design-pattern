@@ -14,20 +14,24 @@ import java.util.Set;
  */
 public class FlowNode {
 
+    /**
+     * key: 类名字或者 groupName_类名字
+     * value: 节点配置
+     */
     private Map<String, NodeConf> nodeMap = new LinkedHashMap<>();
 
     /**
-     *
-     * @param groupName
-     * @param nodeName
+     * 新增流程节点
+     * @param groupName 组名
+     * @param clazz
      * @param nodeConf
      */
-    public void add(String groupName, Class nodeName, NodeConf nodeConf) {
+    public void add(String groupName, Class clazz, NodeConf nodeConf) {
         String key;
         if (StringUtils.isNotBlank(groupName)) {
-            key = groupName + "_" + nodeName.getName();
+            key = groupName + "_" + clazz.getName();
         } else {
-            key = nodeName.getName();
+            key = clazz.getName();
         }
 
         if (nodeMap.containsKey(key)) {
@@ -37,41 +41,57 @@ public class FlowNode {
         nodeMap.put(key, nodeConf);
     }
 
-    public void add(Class nodeName, NodeConf nodeConf) {
-        this.add(nodeName.getName(), nodeName, nodeConf);
+    /**
+     *
+     * @param clazz node节点类
+     * @param nodeConf 节点配置
+     */
+    public void add(Class clazz, NodeConf nodeConf) {
+        this.add(clazz.getName(), clazz, nodeConf);
     }
 
-    public void replace(String groupName, Class nodeName, NodeConf nodeConf) {
+    /**
+     * 节点替换
+     * @param groupName
+     * @param clazz
+     * @param nodeConf
+     */
+    public void replace(String groupName, Class clazz, NodeConf nodeConf) {
         String key;
         if (StringUtils.isNotBlank(groupName)) {
-            key = groupName + "_" + nodeName.getName();
+            key = groupName + "_" + clazz.getName();
         } else {
-            key = nodeName.getName();
+            key = clazz.getName();
         }
 
         nodeMap.put(key, nodeConf);
     }
 
-    public void replace(Class nodeName, NodeConf nodeConf) {
-        this.replace(nodeName.getName(), nodeName, nodeConf);
+    /**
+     * 节点替换
+     * @param clazz
+     * @param nodeConf
+     */
+    public void replace(Class clazz, NodeConf nodeConf) {
+        this.replace(clazz.getName(), clazz, nodeConf);
     }
 
-    public void remove(String groupName, Class nodeName) {
-        String key = null;
+    public void remove(String groupName, Class clazz) {
+        String key;
         if (StringUtils.isNotBlank(groupName)) {
-            key = groupName + "_" + nodeName.getName();
+            key = groupName + "_" + clazz.getName();
         } else {
-            key = nodeName.getName();
+            key = clazz.getName();
         }
 
         nodeMap.remove(key);
     }
 
-    public void remove(Class nodeName) {
-        this.remove(nodeName.getName(), nodeName);
+    public void remove(Class clazz) {
+        this.remove(clazz.getName(), clazz);
     }
 
-    public Set<String> getNodeList() {
+    public Set<String> getNodeKeyList() {
         return nodeMap.keySet();
     }
 
@@ -90,7 +110,7 @@ public class FlowNode {
      */
     public static class NodeConf {
 
-        private int timeout = 5000;
+        private int timeout = 1000;
 
         public NodeConf() {
         }

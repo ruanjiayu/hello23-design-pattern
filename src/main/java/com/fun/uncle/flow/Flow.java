@@ -10,11 +10,13 @@ public class Flow {
     private static FlowNode testFlow = new FlowNode();
 
     static {
-        testFlow.add(NodeOne.class, new FlowNode.NodeConf());
-        testFlow.add(NodeTwo.class, new FlowNode.NodeConf());
+        // 串行
+//        testFlow.add(NodeOne.class, new FlowNode.NodeConf());
+//        testFlow.add(NodeTwo.class, new FlowNode.NodeConf());
 
-//        testFlow.add("tree", NodeOne.class, new FlowNode.NodeConf());
-//        testFlow.add("tree", NodeTwo.class, new FlowNode.NodeConf());
+        // 并发执行
+        testFlow.add("tree", NodeOne.class, new FlowNode.NodeConf());
+        testFlow.add("tree", NodeTwo.class, new FlowNode.NodeConf());
     }
 
     public static FlowNode getTestFlow() {

@@ -21,13 +21,13 @@ public class FlowTest extends ApplicationTests {
     public void expireTest() throws Exception{
         FlowNode testFlow = Flow.getTestFlow();
         FlowEngine.RunData runData = new FlowEngine.RunData();
-        runData.setParamOne("one");
-        runData.setParamTwo("two");
+        runData.setParamOne("阮佳裕");
+        runData.setParamTwo("徐帆");
         Context context = new Context();
         flowEngine.execute(testFlow, runData, context);
         Map<String, Object> adaptorMap = context.getAdaptorMap();
 
-        System.out.println(adaptorMap.get("NodeOne"));
-        System.out.println(adaptorMap.get("NodeTwo"));
+        System.out.println("结果:" + adaptorMap.get("NodeOne"));
+        System.out.println("结果:" + adaptorMap.get("NodeTwo"));
     }
 }

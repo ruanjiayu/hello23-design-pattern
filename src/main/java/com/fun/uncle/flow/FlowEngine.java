@@ -46,11 +46,11 @@ public class FlowEngine {
 
         for (String groupName : nodeGroup.keySet()) {
             boolean needThrowExp = false;
-            List<String> nodeNameList = nodeGroup.get(groupName);
+            List<String> nodeClassNameList = nodeGroup.get(groupName);
             // 只有一个Node节点，串行执行
-            if (nodeNameList.size() == 1) {
-                String nodeName = nodeNameList.get(0);
-                FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeName));
+            if (nodeClassNameList.size() == 1) {
+                String nodeClassName = nodeClassNameList.get(0);
+                FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeClassName));
                 NodeExecuteTask nodeParallelTask = new NodeExecuteTask(detailNode, runData, context);
 
                 try {
@@ -59,43 +59,54 @@ public class FlowEngine {
                 } catch (Exception e) {
                     needThrowExp = true;
                 }
-            } else {
-                // 多个Node节点，并行执行
+            }
+            // 多个Node节点，并行执行
+            else {
                 List<Future> resultList = new ArrayList<>();
-                List<String> executeNodeNameList = new ArrayList<>();
+                List<String> executeNodeClassNameList = new ArrayList<>();
                 List<NodeExecuteTask> executedNodeList = new ArrayList<>();
-                for (String nodeName : nodeNameList) {
-                    FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeName));
+
+                // 组装需要执行的任务
+                for (String nodeClassName : nodeClassNameList) {
+                    FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeClassName));
                     NodeExecuteTask nodeParallelTask = new NodeExecuteTask(detailNode, runData, context);
 
                     executedNodeList.add(nodeParallelTask);
-                    executeNodeNameList.add(nodeName);
+                    executeNodeClassNameList.add(nodeClassName);
                     resultList.add(threadPool.submit(nodeParallelTask));
                 }
 
+                // 拿到执行的结果
                 for (int i = 0; i < resultList.size(); i++) {
-                    String nodeName = executeNodeNameList.get(i);
-                    String nodeKey = groupName + "_" + nodeName;
-                    FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeName));
+                    String nodeClassName = executeNodeClassNameList.get(i);
+                    String nodeKey = groupName + "_" + nodeClassName;
+                    FlowNodeInterface detailNode = (FlowNodeInterface) BaseService.getSingleBeanByType(Class.forName(nodeClassName));
                     FlowNode.NodeConf nodeConf = nodeMap.get(nodeKey);
                     int timeout = nodeConf.getTimeout();
                     Future future = resultList.get(i);
+
                     try {
-                        Object o = future.get(timeout, TimeUnit.MICROSECONDS);
-                        context.getAdaptorMap().put(detailNode.resultKey(), o);
+                        Object result = future.get(timeout, TimeUnit.MILLISECONDS);
+                        context.getAdaptorMap().put(detailNode.resultKey(), result);
                     } catch (ExecutionException e) {
                         System.out.println("ExecutionException");
                         needThrowExp = true;
+                        break;
                     } catch (TimeoutException o) {
                         System.out.println("TimeoutException" + timeout);
                         needThrowExp = true;
+                        break;
                     } catch (Exception e) {
                         System.out.println("Exception");
                         needThrowExp = true;
+                        break;
                     }
                 }
             }
 
+            /**
+             * 出现异常时候的处理逻辑
+             */
             if (needThrowExp) {
                 throw new RuntimeException();
             }
@@ -103,24 +114,31 @@ public class FlowEngine {
     }
 
 
+    /**
+     * key: 组名
+     * value: 节点的 类名字
+     *
+     * @param flowNode
+     * @return key: 组名 value
+     */
     private Map<String, List<String>> groupByGroupName(FlowNode flowNode) {
         Map<String, List<String>> nodeGroup = new LinkedHashMap<>();
-        for (String nodeKey : flowNode.getNodeList()) {
+        for (String nodeKey : flowNode.getNodeKeyList()) {
             String groupName = getGroupName(nodeKey);
-            String nodeName = getNodeName(nodeKey);
+            String nodeClassName = getNodeClassName(nodeKey);
 
             if (StringUtils.isBlank(groupName)) {
-                List<String> nodeNameList = new ArrayList<>();
-                nodeNameList.add(nodeName);
-                nodeGroup.put(nodeName, nodeNameList);
+                List<String> nodeClassNameList = new ArrayList<>();
+                nodeClassNameList.add(nodeClassName);
+                nodeGroup.put(nodeClassName, nodeClassNameList);
             } else {
-                List<String> nodeNameList = nodeGroup.get(groupName);
-                if (nodeNameList == null) {
-                    nodeNameList = new ArrayList<>();
+                List<String> nodeClassNameList = nodeGroup.get(groupName);
+                if (nodeClassNameList == null) {
+                    nodeClassNameList = new ArrayList<>();
                 }
 
-                nodeNameList.add(nodeName);
-                nodeGroup.put(groupName, nodeNameList);
+                nodeClassNameList.add(nodeClassName);
+                nodeGroup.put(groupName, nodeClassNameList);
             }
         }
         return nodeGroup;
@@ -131,7 +149,7 @@ public class FlowEngine {
         return arr.length == 2 ? arr[0] : null;
     }
 
-    private String getNodeName(String nodeKey) {
+    private String getNodeClassName(String nodeKey) {
         String[] arr = nodeKey.split("_");
         return arr.length == 2 ? arr[1] : arr[0];
     }
@@ -141,6 +159,7 @@ public class FlowEngine {
      * 流程中的参数
      */
     public static class RunData {
+
         private String paramOne;
 
         private String paramTwo;

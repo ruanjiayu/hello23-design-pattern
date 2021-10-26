@@ -34,6 +34,6 @@ public class NodeOne implements FlowNodeInterface{
 
     @Override
     public String resultKey() {
-        return "NodeOne";
+        return NodeOne.class.getSimpleName();
     }
 }
