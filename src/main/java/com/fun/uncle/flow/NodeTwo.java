@@ -13,7 +13,7 @@ public class NodeTwo implements FlowNodeInterface{
 
     @Override
     public Object invokeNode(FlowEngine.RunData nodeData, Context context) {
-        System.out.println("invokeNode:" +  nodeData.getParamOne() + "没沟通" + nodeData.getParamTwo());
+        System.out.println("商品校验");
         try {
             Thread.sleep(300L);
         } catch (InterruptedException e) {
@@ -24,7 +24,7 @@ public class NodeTwo implements FlowNodeInterface{
 
     @Override
     public void afterInvoke(FlowEngine.RunData nodeData, Context context) {
-        System.out.println("afterInvoke:" + nodeData.getParamOne() + "胯下海口" + nodeData.getParamTwo());
+        System.out.println("扣减库存");
     }
 
     @Override

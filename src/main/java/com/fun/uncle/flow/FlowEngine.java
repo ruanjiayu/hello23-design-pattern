@@ -93,7 +93,7 @@ public class FlowEngine {
                         needThrowExp = true;
                         break;
                     } catch (TimeoutException o) {
-                        System.out.println("TimeoutException" + timeout);
+                        System.out.println("TimeoutException");
                         needThrowExp = true;
                         break;
                     } catch (Exception e) {
@@ -156,7 +156,7 @@ public class FlowEngine {
 
 
     /**
-     * 流程中的参数
+     * 流程中的需要传递的参数
      */
     public static class RunData {
 
