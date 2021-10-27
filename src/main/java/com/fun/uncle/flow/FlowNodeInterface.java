@@ -15,7 +15,7 @@ public interface FlowNodeInterface<T> {
      * @param context
      * @return
      */
-    T invokeNode(FlowEngine.RunData nodeData, Context context);
+    T invokeNode(RunData nodeData, Context context);
 
 
     /**
@@ -24,7 +24,7 @@ public interface FlowNodeInterface<T> {
      * @param nodeData
      * @param context
      */
-    void afterInvoke(FlowEngine.RunData nodeData, Context context);
+    void afterInvoke(RunData nodeData, Context context);
 
     /**
      * 从context中获取node结果key

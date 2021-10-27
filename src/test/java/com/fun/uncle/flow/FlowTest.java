@@ -20,13 +20,14 @@ public class FlowTest extends ApplicationTests {
     @Test
     public void expireTest() throws Exception{
         FlowNode testFlow = Flow.getTestFlow();
-        FlowEngine.RunData runData = new FlowEngine.RunData();
-        runData.setParamOne("阮佳裕");
-        runData.setParamTwo("徐帆");
+        // 要处理的参数
+        RunData runData = new RunData();
+        runData.setParam("阮佳裕");
         Context context = new Context();
         flowEngine.execute(testFlow, runData, context);
         Map<String, Object> adaptorMap = context.getAdaptorMap();
 
+        // 获取各个校验的处理结果
         System.out.println("结果:" + adaptorMap.get("NodeOne"));
         System.out.println("结果:" + adaptorMap.get("NodeTwo"));
     }

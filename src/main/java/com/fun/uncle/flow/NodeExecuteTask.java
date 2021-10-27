@@ -12,12 +12,12 @@ public class NodeExecuteTask implements Callable {
 
     private FlowNodeInterface flowNodeInterface;
 
-    private FlowEngine.RunData runData;
+    private RunData runData;
 
     private Context context;
 
 
-    public NodeExecuteTask(FlowNodeInterface flowNodeInterface, FlowEngine.RunData runData, Context context) {
+    public NodeExecuteTask(FlowNodeInterface flowNodeInterface, RunData runData, Context context) {
         this.flowNodeInterface = flowNodeInterface;
         this.runData = runData;
         this.context = context;

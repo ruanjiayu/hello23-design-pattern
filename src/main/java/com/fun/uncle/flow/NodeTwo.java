@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 public class NodeTwo implements FlowNodeInterface{
 
     @Override
-    public Object invokeNode(FlowEngine.RunData nodeData, Context context) {
+    public Object invokeNode(RunData nodeData, Context context) {
         System.out.println("商品校验");
         try {
             Thread.sleep(300L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return nodeData.getParamTwo();
+        return true;
     }
 
     @Override
-    public void afterInvoke(FlowEngine.RunData nodeData, Context context) {
+    public void afterInvoke(RunData nodeData, Context context) {
         System.out.println("扣减库存");
     }
 

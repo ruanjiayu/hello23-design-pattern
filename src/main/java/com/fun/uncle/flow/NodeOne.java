@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 public class NodeOne implements FlowNodeInterface{
 
     @Override
-    public Object invokeNode(FlowEngine.RunData nodeData, Context context) {
+    public Object invokeNode(RunData nodeData, Context context) {
         System.out.println("身份校验");
         try {
             Thread.sleep(300L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return nodeData.getParamOne();
+        return true;
     }
 
     @Override
-    public void afterInvoke(FlowEngine.RunData nodeData, Context context) {
+    public void afterInvoke(RunData nodeData, Context context) {
         System.out.println("记录参与");
     }
 

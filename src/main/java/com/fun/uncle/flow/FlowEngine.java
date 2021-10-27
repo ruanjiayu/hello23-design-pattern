@@ -87,6 +87,7 @@ public class FlowEngine {
 
                     try {
                         Object result = future.get(timeout, TimeUnit.MILLISECONDS);
+                        // 将结果放入上下文
                         context.getAdaptorMap().put(detailNode.resultKey(), result);
                     } catch (ExecutionException e) {
                         System.out.println("ExecutionException");
@@ -152,33 +153,6 @@ public class FlowEngine {
     private String getNodeClassName(String nodeKey) {
         String[] arr = nodeKey.split("_");
         return arr.length == 2 ? arr[1] : arr[0];
-    }
-
-
-    /**
-     * 流程中的需要传递的参数
-     */
-    public static class RunData {
-
-        private String paramOne;
-
-        private String paramTwo;
-
-        public String getParamOne() {
-            return paramOne;
-        }
-
-        public void setParamOne(String paramOne) {
-            this.paramOne = paramOne;
-        }
-
-        public String getParamTwo() {
-            return paramTwo;
-        }
-
-        public void setParamTwo(String paramTwo) {
-            this.paramTwo = paramTwo;
-        }
     }
 
 }
