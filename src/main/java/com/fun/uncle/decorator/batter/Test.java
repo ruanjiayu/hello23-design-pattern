@@ -6,7 +6,7 @@ package com.fun.uncle.decorator.batter;
  * @DateTime: 2020/8/22 2:29 下午
  * @Version: 0.0.1-SNAPSHOT
  */
-public class BatterCakeTest {
+public class Test {
 
     public static void main(String[] args) {
 
