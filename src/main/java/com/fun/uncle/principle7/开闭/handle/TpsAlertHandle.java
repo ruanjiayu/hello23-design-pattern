@@ -19,5 +19,6 @@ public class TpsAlertHandle extends AlertHandle {
     @Override
     public void check(ApiStatInfo apiStatInfo) {
         // 流量检测
+        System.out.println("流量检测");
     }
 }

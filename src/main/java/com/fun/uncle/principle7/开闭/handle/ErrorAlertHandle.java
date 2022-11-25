@@ -19,5 +19,6 @@ public class ErrorAlertHandle extends AlertHandle {
     @Override
     public void check(ApiStatInfo apiStatInfo) {
         // 错误的检查
+        System.out.println("错误的检查");
     }
 }

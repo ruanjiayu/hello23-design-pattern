@@ -17,10 +17,15 @@ public class ApplicationContext {
 
     private Integer errorNum;
 
+    public ApplicationContext initializeBeans() {
+        alert = new Alert();
+        tpsNum = 10;
+        errorNum = 5;
 
-    // 饿汉式单例
-    private static final ApplicationContext instance = new ApplicationContext();
-
+        alert.addAlertHandle(new TpsAlertHandle(tpsNum, errorNum));
+        alert.addAlertHandle(new ErrorAlertHandle(tpsNum, errorNum));
+        return this;
+    }
 
     public Alert getAlert() {
         return alert;
@@ -30,17 +35,9 @@ public class ApplicationContext {
         return instance;
     }
 
-    public void initializeBeans() {
-        alert = new Alert();
-        tpsNum = 10;
-        errorNum = 5;
+    // 饿汉式单例
+    private static final ApplicationContext instance = new ApplicationContext().initializeBeans();
 
-        alert.addAlertHandle(new TpsAlertHandle(tpsNum, errorNum));
-        alert.addAlertHandle(new ErrorAlertHandle(tpsNum, errorNum));
-    }
 
-    private ApplicationContext() {
-        instance.initializeBeans();
-    }
 
 }
